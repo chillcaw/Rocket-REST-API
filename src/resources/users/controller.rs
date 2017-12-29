@@ -1,3 +1,4 @@
+
 pub fn all() -> &'static str {
     "all"
 }
@@ -10,10 +11,10 @@ pub fn create() -> &'static str {
     "create"
 }
 
-pub fn delete() -> &'static str {
-    "hello"
-}
-
 pub fn update() -> &'static str {
     "update"
+}
+
+pub fn delete() -> &'static str {
+    "hello"
 }

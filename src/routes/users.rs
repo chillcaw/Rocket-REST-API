@@ -1,6 +1,5 @@
 extern crate rocket;
 extern crate rocket_contrib;
-extern crate serde_derive;
 
 use rocket_contrib::{Json, Value};
 
@@ -23,14 +22,14 @@ fn create(user: Json<User>) -> &'static str {
     return controller::create()
 }
 
-#[delete("/<id>")]
-fn delete(id: usize) -> &'static str {
-    return controller::delete();
-}
-
 #[put("/<id>", format = "application/json", data = "<user>")]
 fn update(id: u8, user: Json<User>) -> &'static str {
     return controller::update();
+}
+
+#[delete("/<id>")]
+fn delete(id: usize) -> &'static str {
+    return controller::delete();
 }
 
 pub fn get_routes() -> Vec<rocket::Route> {
@@ -38,7 +37,7 @@ pub fn get_routes() -> Vec<rocket::Route> {
         all,
         find,
         create,
-        delete,
-        update
+        update,
+        delete
     ];
 }
