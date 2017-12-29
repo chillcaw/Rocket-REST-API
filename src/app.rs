@@ -1,11 +1,10 @@
 extern crate rocket;
 
 use routes;
-use config::database;
+use config;
 
 pub fn run() -> () {
-    let init = rocket::ignite()
-        .manage(database::connect_db());
+    let init = config::init_app();
 
     //Mount routes
     let app: rocket::Rocket = routes::collect_routes(init);
