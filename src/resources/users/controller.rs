@@ -1,3 +1,6 @@
+use resources::users;
+use self::users::model::User;
+
 
 pub fn all() -> &'static str {
     "all"
