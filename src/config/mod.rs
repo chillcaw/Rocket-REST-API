@@ -1,4 +1,4 @@
-extern crate rocket;
+use rocket;
 
 pub mod database;
 

@@ -1,11 +1,16 @@
-extern crate serde_derive;
-
 #[derive(Serialize, Deserialize)]
 pub struct User {
-    name: String
+    pub id: usize,
+    pub name: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Users {
-    users: Vec<User>
+    pub users: Vec<User>
+}
+
+impl Users {
+    pub fn get_users(self) -> Vec<User> {
+        self.users
+    }
 }

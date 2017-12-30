@@ -1,4 +1,4 @@
-extern crate rocket;
+use rocket;
 
 use resources::users;
 
