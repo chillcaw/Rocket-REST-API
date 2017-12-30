@@ -1,9 +1,4 @@
 use rocket;
-use rocket_contrib;
-
-use rocket::response::content;
-use rocket::response::status;
-use rocket::response::Response;
 use rocket_contrib::{Json, Value};
 
 use resources::users;

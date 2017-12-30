@@ -1,12 +1,8 @@
-use diesel;
-use dotenv;
 use r2d2;
-
 use std::env;
 
 use dotenv::dotenv;
 use r2d2_diesel::ConnectionManager;
-use diesel::prelude::*;
 use diesel::pg::PgConnection;
 
 type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;

@@ -1,7 +1,4 @@
-use std::fmt::Debug;
-
 use rocket_contrib::{Json, Value};
-use serde_derive;
 
 use resources::users;
 use self::users::models::{User, Users};
@@ -30,31 +27,21 @@ fn proto_users() -> Users {
 }
 
 pub fn all() -> Json<Value> {
-    return Serial::Users(
-        proto_users()
-    ).json();
+    return Serial::Users(proto_users()).json();
 }
 
 pub fn find(id: usize) -> Json<Value> {
-    return Serial::User(
-        proto_user()
-    ).json();
+    return Serial::User(proto_user()).json();
 }
 
 pub fn create(user: User) -> Json<Value> {
-    return Serial::User(
-        proto_user()
-    ).json();
+    return Serial::User(user).json();
 }
 
 pub fn update(id: usize, user: User) -> Json<Value> {
-    return Serial::User(
-        proto_user()
-    ).json();
+    return Serial::User(user).json();
 }
 
 pub fn delete(id: usize) -> Json<Value> {
-    return Serial::User(
-        proto_user()
-    ).json();
+    return Serial::User(proto_user()).json();
 }
