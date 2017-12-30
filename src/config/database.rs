@@ -1,16 +1,17 @@
-extern crate diesel;
-extern crate dotenv;
-extern crate r2d2;
-extern crate r2d2_diesel;
+use diesel;
+use dotenv;
+use r2d2;
 
-use r2d2::Pool;
-use r2d2_diesel::ConnectionManager;
-use dotenv::dotenv;
 use std::env;
+
+use dotenv::dotenv;
+use r2d2_diesel::ConnectionManager;
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
 
-pub fn connect_db() -> Pool<ConnectionManager<PgConnection>> {
+type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
+
+pub fn init_db() -> Pool {
     dotenv().ok();
 
     let database_url = env::var("DATABASE_URL")

@@ -4,5 +4,5 @@ pub mod database;
 
 pub fn init_app() -> rocket::Rocket {
     return rocket::ignite()
-        .manage(database::connect_db());
+        .manage(database::init_db());
 }

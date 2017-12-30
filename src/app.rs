@@ -1,13 +1,14 @@
 extern crate rocket;
 
-use routes;
+use urls;
 use config;
 
 pub fn run() -> () {
+    //Set config
     let init = config::init_app();
 
     //Mount routes
-    let app: rocket::Rocket = routes::collect_routes(init);
+    let app = urls::collect_urls(init);
 
     app.launch();
 }

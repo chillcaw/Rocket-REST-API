@@ -10,7 +10,7 @@ extern crate r2d2_diesel;
 extern crate r2d2;
 extern crate dotenv;
 
-mod routes;
+mod urls;
 mod app;
 mod resources;
 mod config;

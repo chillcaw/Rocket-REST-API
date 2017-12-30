@@ -1,38 +1,39 @@
-extern crate rocket;
-extern crate rocket_contrib;
+use rocket;
+use rocket_contrib;
 
 use rocket_contrib::{Json, Value};
 
 use resources::users;
-use self::users::controller;
-use self::users::model::User;
+use self::users::views;
+use self::users::models::User;
 
 #[get("/")]
 fn all() -> &'static str {
-    return controller::all();
+    return views::all();
 }
 
 #[get("/<id>")]
 fn find(id: usize) -> &'static str {
-    return controller::find();
+    return views::find();
 }
 
 #[post("/", format = "application/json", data = "<user>")]
 fn create(user: Json<User>) -> &'static str {
-    return controller::create()
+    return views::create()
 }
 
 #[put("/<id>", format = "application/json", data = "<user>")]
 fn update(id: u8, user: Json<User>) -> &'static str {
-    return controller::update();
+    return views::update();
 }
 
 #[delete("/<id>")]
 fn delete(id: usize) -> &'static str {
-    return controller::delete();
+    return views::delete();
 }
 
-pub fn get_routes() -> Vec<rocket::Route> {
+
+pub fn get_urls() -> Vec<rocket::Route> {
     return routes![
         all,
         find,
