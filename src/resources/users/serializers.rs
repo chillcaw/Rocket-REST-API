@@ -1,11 +1,11 @@
 use rocket_contrib::{Json, Value};
 
 use resources::users;
-use self::users::models::{User, Users};
+use self::users::models::User;
 
 pub enum Serial {
     User(User),
-    Users(Users)
+    Users(Vec<User>)
 }
 
 impl Serial {

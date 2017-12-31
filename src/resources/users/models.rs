@@ -1,14 +1,9 @@
-use std::fmt::Debug;
+use resources::users::schema;
+use self::schema::users;
 
-#[derive(Debug)]
-#[derive(Serialize, Deserialize)]
+#[table_name="users"]
+#[derive(Insertable, Queryable, Serialize, Deserialize, Debug)]
 pub struct User {
-    pub id: usize,
+    pub id: i32,
     pub name: String,
-}
-
-#[derive(Debug)]
-#[derive(Serialize, Deserialize)]
-pub struct Users {
-    pub users: Vec<User>
 }
