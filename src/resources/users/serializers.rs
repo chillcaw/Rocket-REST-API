@@ -2,19 +2,26 @@ use rocket_contrib::{Json, Value};
 
 use resources::users;
 use self::users::models::User;
+use tools::response::{Success, Error};
 
-pub enum Serial {
+pub enum Serialize {
     User(User),
-    Users(Vec<User>)
+    Users(Vec<User>),
+    Error(Error),
+    Success(Success)
 }
 
-impl Serial {
+impl Serialize {
     pub fn json(&self) -> Json<Value> {
         match *self {
-            Serial::User(ref user)
+            Serialize::User(ref user)
                 => Json(json!(user.clone())),
-            Serial::Users(ref users)
-                => Json(json!(users.clone()))
+            Serialize::Users(ref users)
+                => Json(json!(users.clone())),
+            Serialize::Error(ref error)
+                => Json(json!(error.clone())),
+            Serialize::Success(ref success)
+                => Json(json!(success.clone()))
         }
     }
 }

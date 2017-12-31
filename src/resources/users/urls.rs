@@ -4,7 +4,7 @@ use rocket_contrib::{Json, Value};
 use config::database::DbConn;
 use resources::users;
 use self::users::views::View;
-use self::users::models::User;
+use self::users::models::NewUser;
 
 #[get("/")]
 fn all(conn: DbConn) -> Json<Value> {
@@ -17,12 +17,12 @@ fn find(id: i32, conn: DbConn) -> Json<Value> {
 }
 
 #[post("/", format = "application/json", data = "<user>")]
-fn create(user: Json<User>, conn: DbConn) -> Json<Value> {
+fn create(user: Json<NewUser>, conn: DbConn) -> Json<Value> {
     return View::new(conn).create(user.into_inner());
 }
 
 #[put("/<id>", format = "application/json", data = "<user>")]
-fn update(id: i32, user: Json<User>, conn: DbConn) -> Json<Value> {
+fn update(id: i32, user: Json<NewUser>, conn: DbConn) -> Json<Value> {
     return View::new(conn).update(id, user.into_inner());
 }
 

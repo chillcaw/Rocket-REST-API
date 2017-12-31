@@ -1,5 +1,4 @@
 use rocket;
-use diesel;
 
 pub mod views;
 pub mod models;
