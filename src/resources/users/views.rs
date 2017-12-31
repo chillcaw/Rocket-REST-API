@@ -2,10 +2,12 @@ use rocket_contrib::{Json, Value};
 use diesel;
 use diesel::prelude::*;
 
+use std::error::Error;
+
 use config::database::DbConn;
+use tools::response::{ResSuccess, ResError};
 
 use resources::users::models::{User, NewUser};
-use tools::response::{Success, Error};
 use resources::users::serializers::Serialize;
 use resources::users::schema;
 use self::schema::users;
@@ -40,16 +42,22 @@ impl View {
     }
 
     pub fn create(&self, user: NewUser) -> Json<Value> {
-        let insert: bool
+        let insert
             = diesel::insert_into(users::table)
                 .values(&user)
-                .execute(&*self.conn)
-                .is_ok() as bool;
+                .execute(&*self.conn);
 
-        if insert {
-            return Serialize::Success(Success::new(201)).json();
-        } else {
-            return Serialize::Error(Error::new(422)).json();
+        match insert {
+            Ok(_) => Serialize::Success(
+                ResSuccess::new(201)
+            ).json(),
+
+            Err(error) => Serialize::Error(
+                ResError::new(
+                    422,
+                    error.description().to_string()
+                )
+            ).json()
         }
     }
 
@@ -63,8 +71,21 @@ impl View {
     }
 
     pub fn delete(&self, id: i32) -> Json<Value> {
-        diesel::delete(all_users.find(id)).execute(&*self.conn).is_ok();
-        
-        return Serialize::Success(Success::new(200)).json()
+        let delete
+            = diesel::delete(all_users.find(id))
+                .execute(&*self.conn);
+
+        match delete {
+            Ok(_) => Serialize::Success(
+                ResSuccess::new(201)
+            ).json(),
+
+            Err(error) => Serialize::Error(
+                ResError::new(
+                    422,
+                    error.description().to_string()
+                )
+            ).json()
+        }
     }
 }

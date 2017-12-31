@@ -36,7 +36,6 @@ impl<'a, 'r> FromRequest<'a, 'r> for DbConn {
     }
 }
 
-
 impl Deref for DbConn {
     type Target = PgConnection;
 
@@ -44,12 +43,3 @@ impl Deref for DbConn {
         &self.0
     }
 }
-// single connection
-// pub fn new_connect_db() -> PgConnection {
-//     dotenv().ok();
-//
-//     let database_url = env::var("DATABASE_URL")
-//         .expect("DATABASE_URL must be set");
-//     PgConnection::establish(&database_url)
-//         .expect(&format!("Error connecting to {}", database_url))
-// }

@@ -2,13 +2,13 @@ use rocket_contrib::{Json, Value};
 
 use resources::users;
 use self::users::models::User;
-use tools::response::{Success, Error};
+use tools::response::{ResSuccess, ResError};
 
 pub enum Serialize {
     User(User),
     Users(Vec<User>),
-    Error(Error),
-    Success(Success)
+    Error(ResError),
+    Success(ResSuccess)
 }
 
 impl Serialize {

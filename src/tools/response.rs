@@ -1,38 +1,29 @@
 #[derive(Serialize, Deserialize)]
-pub struct Error {
+pub struct ResError {
     pub code: i32,
     pub message: String
 }
 
-impl Error {
-    pub fn new(status_code: i32) -> Self {
+impl ResError {
+    pub fn new(status_code: i32, error_message: String) -> Self {
         Self {
             code: status_code,
-            message: Self::message(status_code)
+            message: error_message
         }
-    }
-
-    fn message(status_code: i32) -> String {
-        let message = match status_code {
-            422 => "Unprocessable Entity",
-            _ => "Bad code"
-        };
-
-        return String::from(message);
     }
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct Success {
+pub struct ResSuccess {
     pub code: i32,
     pub message: String
 }
 
-impl Success {
+impl ResSuccess {
     pub fn new(status_code: i32) -> Self {
         Self {
             code: status_code,
-            message: Self::message(status_code)
+            message: Self::message(status_code),
         }
     }
 
