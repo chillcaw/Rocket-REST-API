@@ -1,8 +1,10 @@
 use rocket;
 
-pub mod views;
 pub mod models;
 pub mod urls;
+pub mod page_urls;
+pub mod views;
+pub mod page_views;
 pub mod serializers;
 
 pub mod schema {

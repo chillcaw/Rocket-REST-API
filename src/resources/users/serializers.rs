@@ -5,13 +5,14 @@ use diesel::result::{Error as DieselError};
 use std::error::Error;
 
 use resources::users;
-use self::users::models::User;
+use self::users::models::{User, Page};
 use tools::error::{ProcessError, ProcessSuccess};
 
 pub enum Serialize {
     User(User),
     Users(Vec<User>),
     Delete(ProcessSuccess),
+    Page(Page),
 
     Error(ProcessError),
 }
@@ -25,9 +26,15 @@ impl Serialize {
                 => Ok(Json(json!(users.clone()))),
             Serialize::Delete(ref delete)
                 => Ok(Json(json!(delete.clone()))),
+            Serialize::Page(ref page)
+                => Ok(Json(json!(page.clone()))),
             Serialize::Error(error)
                 => Err(error),
         }
+    }
+
+    pub fn page(page: Page) -> Result<Json<Value>, ProcessError> {
+        self::Serialize::Page(page).json()
     }
 
     pub fn all(query: QueryResult<Vec<User>>) -> Result<Json<Value>, ProcessError> {

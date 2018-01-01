@@ -8,6 +8,7 @@ use tools::response;
 use resources::users;
 use self::users::views::View;
 use self::users::models::NewUser;
+use self::users::page_urls;
 
 #[get("/")]
 fn all(conn: DbConn) -> Response<'static> {
@@ -46,6 +47,7 @@ fn delete(id: i32, conn: DbConn) -> Response<'static> {
 
 pub fn get_urls() -> Vec<rocket::Route> {
     return routes![
+        page_urls::page,
         all,
         find,
         create,

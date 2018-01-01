@@ -23,7 +23,9 @@ impl View {
     ///
     ///
     pub fn new(new_conn: DbConn) -> Self {
-        Self {conn: new_conn}
+        Self {
+            conn: new_conn
+        }
     }
 
     ///
