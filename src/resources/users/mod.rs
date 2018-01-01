@@ -4,6 +4,7 @@ pub mod views;
 pub mod models;
 pub mod urls;
 pub mod serializers;
+
 pub mod schema {
     table! {
         users (id) {

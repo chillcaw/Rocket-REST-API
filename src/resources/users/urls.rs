@@ -1,34 +1,47 @@
 use rocket;
-use rocket_contrib::{Json, Value};
+use rocket::response::Response;
+use rocket_contrib::Json;
 
 use config::database::DbConn;
+use tools::response;
+
 use resources::users;
 use self::users::views::View;
 use self::users::models::NewUser;
 
 #[get("/")]
-fn all(conn: DbConn) -> Json<Value> {
-    return View::new(conn).all();
+fn all(conn: DbConn) -> Response<'static> {
+    let data = View::new(conn).all();
+
+    response::Build::new(data)
 }
 
 #[get("/<id>")]
-fn find(id: i32, conn: DbConn) -> Json<Value> {
-    return View::new(conn).find(id);
+fn find(id: i32, conn: DbConn) -> Response<'static> {
+    let data = View::new(conn).find(id);
+
+    response::Build::new(data)
 }
 
 #[post("/", format = "application/json", data = "<user>")]
-fn create(user: Json<NewUser>, conn: DbConn) -> Json<Value> {
-    return View::new(conn).create(user.into_inner());
+fn create(user: Json<NewUser>, conn: DbConn) -> Response<'static> {
+    let data = View::new(conn).create(user.into_inner());
+
+    response::Build::new(data)
 }
 
 #[put("/<id>", format = "application/json", data = "<user>")]
-fn update(id: i32, user: Json<NewUser>, conn: DbConn) -> Json<Value> {
-    return View::new(conn).update(id, user.into_inner());
+fn update(id: i32, user: Json<NewUser>, conn: DbConn) -> Response<'static> {
+    let data = View::new(conn).update(id, user.into_inner());
+
+    response::Build::new(data)
 }
 
 #[delete("/<id>")]
-fn delete(id: i32, conn: DbConn) -> Json<Value> {
-    return View::new(conn).delete(id);
+fn delete(id: i32, conn: DbConn) -> Response<'static> {
+    let data = View::new(conn).delete(id);
+
+    response::Build::new(data)
 }
 
 pub fn get_urls() -> Vec<rocket::Route> {

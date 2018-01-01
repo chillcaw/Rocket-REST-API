@@ -1,10 +1,10 @@
 use rocket_contrib::{Json, Value};
 use diesel;
 use diesel::prelude::*;
-
-use std::error::Error;
+use diesel::QueryResult;
 
 use config::database::DbConn;
+use tools::response::ProcessError;
 
 use resources::users::models::{User, NewUser};
 use resources::users::serializers::Serialize;
@@ -30,8 +30,8 @@ impl View {
     ///
     ///
     ///
-    pub fn all(&self) -> Json<Value> {
-        let all_query
+    pub fn all(&self) -> Result<Json<Value>, ProcessError> {
+        let all_query: QueryResult<Vec<User>>
             = all_users.order(users::id.desc())
                 .get_results(&*self.conn);
 
@@ -42,8 +42,8 @@ impl View {
     ///
     ///
     ///
-    pub fn find(&self, id: i32) -> Json<Value> {
-        let find_query
+    pub fn find(&self, id: i32) -> Result<Json<Value>, ProcessError> {
+        let find_query: QueryResult<User>
             = all_users.find(id)
                 .get_result(&*self.conn);
 
@@ -54,8 +54,8 @@ impl View {
     ///
     ///
     ///
-    pub fn create(&self, user: NewUser) -> Json<Value> {
-        let create_query
+    pub fn create(&self, user: NewUser) -> Result<Json<Value>, ProcessError> {
+        let create_query: QueryResult<User>
             = diesel::insert_into(users::table)
                 .values(&user)
                 .get_result(&*self.conn);
@@ -67,10 +67,11 @@ impl View {
     ///
     ///
     ///
-    pub fn update(&self, id: i32, user: NewUser) -> Json<Value> {
-        let update_query = diesel::update(all_users.find(id))
-            .set(name.eq(user.name))
-            .get_result::<User>(&*self.conn);
+    pub fn update(&self, id: i32, user: NewUser) -> Result<Json<Value>, ProcessError> {
+        let update_query: QueryResult<User>
+            = diesel::update(all_users.find(id))
+                .set(name.eq(user.name))
+                .get_result::<User>(&*self.conn);
 
         return Serialize::update(update_query);
     }
@@ -79,8 +80,8 @@ impl View {
     ///
     ///
     ///
-    pub fn delete(&self, id: i32) -> Json<Value> {
-        let delete_query
+    pub fn delete(&self, id: i32) -> Result<Json<Value>, ProcessError> {
+        let delete_query: QueryResult<usize>
             = diesel::delete(all_users.find(id))
                 .execute(&*self.conn);
 

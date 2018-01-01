@@ -17,20 +17,20 @@ pub enum Serialize {
 }
 
 impl Serialize {
-    pub fn json(&self) -> Json<Value> {
-        match *self {
+    pub fn json(self) -> Result<Json<Value>, ProcessError> {
+        match self {
             Serialize::User(ref user)
-                => Json(json!(user.clone())),
+                => Ok(Json(json!(user.clone()))),
             Serialize::Users(ref users)
-                => Json(json!(users.clone())),
+                => Ok(Json(json!(users.clone()))),
             Serialize::Delete(ref delete)
-                => Json(json!(delete.clone())),
-            Serialize::Error(ref error)
-                => Json(json!(error.clone())),
+                => Ok(Json(json!(delete.clone()))),
+            Serialize::Error(error)
+                => Err(error),
         }
     }
 
-    pub fn all(query: QueryResult<Vec<User>>) -> Json<Value> {
+    pub fn all(query: QueryResult<Vec<User>>) -> Result<Json<Value>, ProcessError> {
         match query {
             Ok(users) => self::Serialize::Users(
                 users
@@ -45,7 +45,7 @@ impl Serialize {
         }
     }
 
-    pub fn find(query: QueryResult<User>) -> Json<Value> {
+    pub fn find(query: QueryResult<User>) -> Result<Json<Value>, ProcessError> {
         match query {
             Ok(user) => self::Serialize::User(
                 user
@@ -60,7 +60,7 @@ impl Serialize {
         }
     }
 
-    pub fn update(query: QueryResult<User>) -> Json<Value> {
+    pub fn update(query: QueryResult<User>) -> Result<Json<Value>, ProcessError> {
         match query {
             Ok(user) => self::Serialize::User(
                 user
@@ -75,14 +75,14 @@ impl Serialize {
         }
     }
 
-    pub fn update_error(error: &DieselError) -> i32 {
+    pub fn update_error(error: &DieselError) -> u16 {
         if error == &DieselError::NotFound {
             return 404;
         }
         return 422;
     }
 
-    pub fn create(query: QueryResult<User>) -> Json<Value> {
+    pub fn create(query: QueryResult<User>) -> Result<Json<Value>, ProcessError> {
         match query {
             Ok(user) => self::Serialize::User(
                 user
@@ -97,10 +97,10 @@ impl Serialize {
         }
     }
 
-    pub fn delete(query: QueryResult<usize>) -> Json<Value> {
+    pub fn delete(query: QueryResult<usize>) -> Result<Json<Value>, ProcessError> {
         match query {
             Ok(_) => self::Serialize::Delete(
-                ProcessSuccess::new(201)
+                ProcessSuccess::new(200)
             ).json(),
 
             Err(error) => self::Serialize::Error(
