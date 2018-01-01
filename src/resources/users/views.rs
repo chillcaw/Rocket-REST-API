@@ -4,7 +4,7 @@ use diesel::prelude::*;
 use diesel::QueryResult;
 
 use config::database::DbConn;
-use tools::response::ProcessError;
+use tools::error::ProcessError;
 
 use resources::users::models::{User, NewUser};
 use resources::users::serializers::Serialize;

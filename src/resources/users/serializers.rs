@@ -6,7 +6,7 @@ use std::error::Error;
 
 use resources::users;
 use self::users::models::User;
-use tools::response::{ProcessError, ProcessSuccess};
+use tools::error::{ProcessError, ProcessSuccess};
 
 pub enum Serialize {
     User(User),
