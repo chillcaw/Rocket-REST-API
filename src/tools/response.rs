@@ -1,10 +1,10 @@
 #[derive(Serialize, Deserialize)]
-pub struct ResError {
+pub struct ProcessError {
     pub code: i32,
     pub message: String
 }
 
-impl ResError {
+impl ProcessError {
     pub fn new(status_code: i32, error_message: String) -> Self {
         Self {
             code: status_code,
@@ -14,12 +14,12 @@ impl ResError {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct ResSuccess {
+pub struct ProcessSuccess {
     pub code: i32,
     pub message: String
 }
 
-impl ResSuccess {
+impl ProcessSuccess {
     pub fn new(status_code: i32) -> Self {
         Self {
             code: status_code,
