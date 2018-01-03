@@ -4,8 +4,10 @@ use diesel::result::{Error as DieselError};
 
 use std::error::Error;
 
+use tools::page::Page;
+
 use resources::users;
-use self::users::models::{User, Page};
+use self::users::models::User;
 use tools::error::{ProcessError, ProcessSuccess};
 
 pub enum Serialize {

@@ -1,15 +1,14 @@
 use rocket_contrib::{Json, Value};
-use diesel;
 use diesel::prelude::*;
 use diesel::QueryResult;
-use diesel::result::{Error as DieselError};
 
 use std::error::Error;
 
 use config::database::DbConn;
 use tools::error::ProcessError;
+use tools::page::Page;
 
-use resources::users::models::{Page, User};
+use resources::users::models::{User, Users};
 use resources::users::serializers::Serialize;
 use resources::users::schema;
 use self::schema::users;
@@ -46,7 +45,7 @@ impl PageView {
 
         match page_query {
             Ok(data) => Serialize::page(
-                Page::new(data, page, self.offset),
+                Page::new(Users::json(data), page, self.offset),
             ),
             Err(error) => Serialize::Error(
                 ProcessError::new(

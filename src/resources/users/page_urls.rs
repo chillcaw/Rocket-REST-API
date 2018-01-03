@@ -1,4 +1,3 @@
-use rocket;
 use rocket::response::Response;
 
 use config::database::DbConn;
@@ -10,8 +9,8 @@ use self::users::models::PageQuery;
 
 #[get("/users?<page_query>")]
 fn page(conn: DbConn, page_query: PageQuery) -> Response<'static> {
-    let page = page_query.page;
-    let offset = page_query.offset;
+    let page = page_query.page.unwrap_or(1);
+    let offset = page_query.offset.unwrap_or(2);
 
     let data = PageView::new(conn, page, offset).page();
 
